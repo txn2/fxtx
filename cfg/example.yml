@@ -1,0 +1,12 @@
+generators:
+  -
+    description: "2222"
+    frequency: 15 # seconds
+    waypointFile: ./cfg/route01.gpx
+    template: "+RESP:GTNMR,EE0109,000000002222,gl500m,0,0,1,0,0.0,0,365.6,{{ index . \"lon\" }},{{ index . \"lat\" }},{{ now | date \"20060102150405\" }},0311,0480,3502,00CF6D02,20,0,,85,1,0,,{{ now | date \"20060102150405\" }},01D6$"
+  -
+    description: "1111"
+    frequency: 30 # seconds
+    waypointFile: ./cfg/route02.gpx
+    template: "+RESP:GTNMR,EE0109,000000001111,gl500m,0,0,1,0,0.0,0,365.6,{{ index . \"lon\" }},{{ index . \"lat\" }},{{ now | date \"20060102150405\" }},0311,0480,3502,00CF6D02,20,0,,85,1,0,,{{ now | date \"20060102150405\" }},01D6$"
+
