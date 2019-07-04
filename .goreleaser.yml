@@ -116,13 +116,13 @@ dockers:
   -
     goos: linux
     goarch: arm
-    goarm: 7
+    goarm: 6
     binaries:
       - fxtx
     dockerfile: Dockerfile
     image_templates:
-      - "txn2/fxtx:armv7-{{ .Tag }}"
-      - "txn2/fxtx:armv7-latest"
+      - "txn2/fxtx:armv6-{{ .Tag }}"
+      - "txn2/fxtx:armv6-latest"
     build_flag_templates:
       - "--label=org.label-schema.schema-version=1.0"
       - "--label=org.label-schema.version={{.Version}}"
