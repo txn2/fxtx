@@ -187,6 +187,12 @@ func (fx *Fxtx) generate(gen Generator, wg *sync.WaitGroup) {
 				zap.Error(err))
 		}
 
+		if conn == nil {
+			fx.Logger.Error("No connection",
+				zap.String("destination", fx.Destination))
+			break
+		}
+
 		_, err = fmt.Fprintf(conn, msg.String()+"\n")
 		if err != nil {
 			fx.Logger.Error("unable to write ",
