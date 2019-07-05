@@ -8,12 +8,11 @@ import (
 	"time"
 
 	"github.com/txn2/fxtx"
-
 	"go.uber.org/zap"
 )
 
 var (
-	configFileEnv = getEnv("CONFIG", "./cfg/example.yml")
+	configFileEnv = getEnv("CONFIG", "./example/example.yml")
 	debugEnv      = getEnv("DEBUG", "false")
 	destHostEnv   = getEnv("DEST", "127.0.0.1:30000")
 	timeoutEnv    = getEnv("TIMEOUT", "10")

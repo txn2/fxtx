@@ -96,6 +96,25 @@ archive:
   files:
     - LICENSE
 
+brew:
+  name: fxtx
+
+  github:
+    owner: txn2
+    name: homebrew-tap
+
+  commit_author:
+    name: Craig Johnston
+    email: cjimti@gmail.com
+
+  folder: Formula
+
+  homepage: https://github.com/txn2/fxtx
+
+  description: "Fake data transmission."
+
+  skip_upload: false
+
 
 dockers:
   -
