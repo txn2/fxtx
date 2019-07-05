@@ -6,6 +6,10 @@
 
 WIP: TXN2 Fake transmission
 
+## Install
+### MacOS
+`brew install txn2/tap/fxtx`
+
 ## Development
 
 ### Test Release
