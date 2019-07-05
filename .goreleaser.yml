@@ -110,9 +110,7 @@ brew:
   folder: Formula
 
   homepage: https://github.com/txn2/fxtx
-
   description: "Fake data transmission."
-
   skip_upload: false
 
 
