@@ -1,12 +1,66 @@
+startOffset: 11 # seconds between starts
 generators:
   -
     description: "2222"
     frequency: 15 # seconds
-    waypointFile: ./cfg/route01.gpx
+    waypointFile: ./cfg/route01.xml
+    waypointFileType: wpt
+    indexOffset: 0 # record to start on
     template: "+RESP:GTNMR,EE0109,000000002222,gl500m,0,0,1,0,0.0,0,365.6,{{ index . \"lon\" }},{{ index . \"lat\" }},{{ now | date \"20060102150405\" }},0311,0480,3502,00CF6D02,20,0,,85,1,0,,{{ now | date \"20060102150405\" }},01D6$"
   -
     description: "1111"
     frequency: 30 # seconds
-    waypointFile: ./cfg/route02.gpx
+    waypointFile: ./cfg/route02.xml
+    waypointFileType: wpt
+    indexOffset: 0
     template: "+RESP:GTNMR,EE0109,000000001111,gl500m,0,0,1,0,0.0,0,365.6,{{ index . \"lon\" }},{{ index . \"lat\" }},{{ now | date \"20060102150405\" }},0311,0480,3502,00CF6D02,20,0,,85,1,0,,{{ now | date \"20060102150405\" }},01D6$"
+  -
+    description: "3333"
+    frequency: 60 # seconds
+    waypointFile: ./cfg/route03.xml
+    waypointFileType: wpt
+    indexOffset: 0
+    template: "+RESP:GTNMR,EE0109,000000003333,gl500m,0,0,1,0,0.0,0,365.6,{{ index . \"lon\" }},{{ index . \"lat\" }},{{ now | date \"20060102150405\" }},0311,0480,3502,00CF6D02,20,0,,85,1,0,,{{ now | date \"20060102150405\" }},01D6$"
+  -
+    description: "4444"
+    frequency: 60 # seconds
+    waypointFile: ./cfg/route04.xml
+    waypointFileType: wpt
+    indexOffset: 0
+    template: "+RESP:GTNMR,EE0109,000000004444,gl500m,0,0,1,0,0.0,0,365.6,{{ index . \"lon\" }},{{ index . \"lat\" }},{{ now | date \"20060102150405\" }},0311,0480,3502,00CF6D02,20,0,,85,1,0,,{{ now | date \"20060102150405\" }},01D6$"
+  -
+    description: "5555"
+    frequency: 60 # seconds
+    waypointFile: ./cfg/route05.xml
+    waypointFileType: wpt
+    indexOffset: 0
+    template: "+RESP:GTNMR,EE0109,000000005555,gl500m,0,0,1,0,0.0,0,365.6,{{ index . \"lon\" }},{{ index . \"lat\" }},{{ now | date \"20060102150405\" }},0311,0480,3502,00CF6D02,20,0,,85,1,0,,{{ now | date \"20060102150405\" }},01D6$"
+  -
+    description: "6666"
+    frequency: 60 # seconds
+    waypointFile: ./cfg/route06.xml
+    waypointFileType: wpt
+    indexOffset: 0
+    template: "+RESP:GTNMR,EE0109,000000006666,gl500m,0,0,1,0,0.0,0,365.6,{{ index . \"lon\" }},{{ index . \"lat\" }},{{ now | date \"20060102150405\" }},0311,0480,3502,00CF6D02,20,0,,85,1,0,,{{ now | date \"20060102150405\" }},01D6$"
+  -
+    description: "6667"
+    frequency: 120 # seconds
+    waypointFile: ./cfg/route06.xml
+    waypointFileType: wpt
+    indexOffset: 50
+    template: "+RESP:GTNMR,EE0109,00000000667,gl500m,0,0,1,0,0.0,0,365.6,{{ index . \"lon\" }},{{ index . \"lat\" }},{{ now | date \"20060102150405\" }},0311,0480,3502,00CF6D02,20,0,,85,1,0,,{{ now | date \"20060102150405\" }},01D6$"
+  -
+    description: "6668"
+    frequency: 45 # seconds
+    waypointFile: ./cfg/route06.xml
+    waypointFileType: wpt
+    indexOffset: 200
+    template: "+RESP:GTNMR,EE0109,00000000668,gl500m,0,0,1,0,0.0,0,365.6,{{ index . \"lon\" }},{{ index . \"lat\" }},{{ now | date \"20060102150405\" }},0311,0480,3502,00CF6D02,20,0,,85,1,0,,{{ now | date \"20060102150405\" }},01D6$"
+  -
+    description: "8888"
+    frequency: 15 # seconds
+    waypointFile: ./cfg/route06.xml
+    waypointFileType: wpt
+    indexOffset: 1000
+    template: "+RESP:GTNMR,EE0109,00000000668,gl500m,0,0,1,0,0.0,0,365.6,{{ index . \"lon\" }},{{ index . \"lat\" }},{{ now | date \"20060102150405\" }},0311,0480,3502,00CF6D02,20,0,,85,1,0,,{{ now | date \"20060102150405\" }},01D6$"
 

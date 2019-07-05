@@ -30,7 +30,8 @@ type Wpt struct {
 
 // GenCfg
 type GenCfg struct {
-	Generators []Generator `yaml:"generators"`
+	StartOffset int         `yaml:"startOffset"`
+	Generators  []Generator `yaml:"generators"`
 }
 
 // Generator
@@ -38,6 +39,8 @@ type Generator struct {
 	Description      string `yaml:"description"`
 	Frequency        int    `yaml:"frequency"`
 	WaypointFile     string `yaml:"waypointFile"`
+	WaypointFileType string `yaml:"waypointFileType"`
+	IndexOffset      int    `yaml:"indexOffset"`
 	Template         string `yaml:"template"`
 	gpxData          *Gpx
 	compiledTemplate *template.Template
@@ -77,10 +80,14 @@ type Fxtx struct {
 func NewFxtx(cfg *Cfg) (*Fxtx, error) {
 
 	for i, gen := range cfg.GenCfg.Generators {
-		cfg.Logger.Info("Loading Generator", zap.String("description", gen.Description))
+		var (
+			zapGen = zap.String("generator", gen.Description)
+		)
+
+		cfg.Logger.Info("Loading Generator", zapGen)
 
 		// load waypoints
-		cfg.Logger.Info("Loading waypoint file go...", zap.String("waypont_file", gen.WaypointFile))
+		cfg.Logger.Info("Loading waypoint file go...", zapGen, zap.String("waypont_file", gen.WaypointFile))
 		gxpData, err := ioutil.ReadFile(gen.WaypointFile)
 		if err != nil {
 			return nil, fmt.Errorf("error opening waypoint file: %s", err.Error())
@@ -90,6 +97,12 @@ func NewFxtx(cfg *Cfg) (*Fxtx, error) {
 		err = xml.Unmarshal(gxpData, gpx)
 		if err != nil {
 			return nil, fmt.Errorf("error unmarshaling waypoints: %s", err.Error())
+		}
+
+		cfg.Logger.Info("Found waypoints", zapGen, zap.Int("count", len(gpx.Wpts)))
+		if len(gpx.Wpts) < 1 {
+			cfg.Logger.Warn("NO WAYPOINTS FOUND", zapGen)
+			continue
 		}
 
 		cfg.GenCfg.Generators[i].gpxData = gpx
@@ -109,13 +122,33 @@ func NewFxtx(cfg *Cfg) (*Fxtx, error) {
 
 // generate
 func (fx *Fxtx) generate(gen Generator, wg *sync.WaitGroup) {
-	fx.Logger.Info("Starting Generator", zap.String("generator", gen.Description))
-
 	var max = len(gen.gpxData.Wpts)
+
+	var (
+		zapGen = zap.String("generator", gen.Description)
+		zapMax = zap.Int("max_waypoints", max)
+	)
+
+	fx.Logger.Info("Starting Generator", zapGen)
+
 	i := 0
-	count := 0
+	count := 1
+
+	fx.Logger.Info("Max waypoints", zapGen, zapMax)
+	if max < 1 {
+		fx.Logger.Error("NO WAYPOINTS FOUND", zapGen, zapMax)
+	}
 
 	d := net.Dialer{Timeout: fx.Timeout}
+
+	//offset start for the first loop
+	if gen.IndexOffset < (max - 1) {
+		fx.Logger.Info("Setting index offset",
+			zap.Int("offset", gen.IndexOffset),
+			zapGen,
+		)
+		i = gen.IndexOffset
+	}
 
 	// loop though way-points and generate a message
 	for {
@@ -143,7 +176,7 @@ func (fx *Fxtx) generate(gen Generator, wg *sync.WaitGroup) {
 
 		// rendered message
 		fx.Logger.Info("Sending rendered message.",
-			zap.String("generator", gen.Description),
+			zapGen,
 			zap.ByteString("msg", msgBytes),
 		)
 
@@ -173,6 +206,8 @@ func (fx *Fxtx) generate(gen Generator, wg *sync.WaitGroup) {
 		)
 
 		time.Sleep(time.Duration(gen.Frequency) * time.Second)
+
+		count += 1
 		i += 1
 		if i >= max {
 			i = 0
@@ -189,6 +224,11 @@ func (fx *Fxtx) Run() {
 	for _, gen := range fx.GenCfg.Generators {
 		wg.Add(1)
 		go fx.generate(gen, &wg)
+
+		if fx.GenCfg.StartOffset > 0 {
+			fx.Logger.Info("Offset next start.", zap.Int("offset", fx.GenCfg.StartOffset))
+			time.Sleep(time.Duration(fx.GenCfg.StartOffset) * time.Second)
+		}
 	}
 
 	wg.Wait()
